@@ -81,16 +81,30 @@ public class OrderRepository {
         return allOrders;
     }
 
+//    public void deletePartner(String partnerId){
+//        // your code here
+//        // delete partner by ID
+//
+//        if(partnerId != null){
+//            partnerMap.remove(partnerId);
+//
+//            orderToPartnerMap.values().removeIf(id -> id.equals(partnerId));
+//
+//            partnerToOrderMap.remove(partnerId);
+//        }
+//    }
+
     public void deletePartner(String partnerId){
         // your code here
         // delete partner by ID
-
-        if(partnerId != null){
+        if (partnerId != null && partnerMap.containsKey(partnerId)) {
             partnerMap.remove(partnerId);
-
-            orderToPartnerMap.values().removeIf(id -> id.equals(partnerId));
-
-            partnerToOrderMap.remove(partnerId);
+            Set<String> assignedOrders = partnerToOrderMap.remove(partnerId);
+            if (assignedOrders != null) {
+                for (String orderId : assignedOrders) {
+                    orderToPartnerMap.remove(orderId);
+                }
+            }
         }
     }
 

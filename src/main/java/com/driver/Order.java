@@ -6,9 +6,9 @@ public class Order {
     private int deliveryTime;
     private String partnerId;
 
-    public Order(String id, String partnerId) {
+    public Order(String id, int deliveryTime, String partnerId) {
         this.id = id;
-        //this.deliveryTime = deliveryTime;
+        this.deliveryTime = deliveryTime;
         this.partnerId = partnerId;
     }
 
