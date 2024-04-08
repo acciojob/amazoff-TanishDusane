@@ -2,9 +2,7 @@ package com.driver;
 
 import java.util.*;
 import org.springframework.stereotype.Repository;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @Repository
 public class OrderRepository {
 
@@ -13,18 +11,17 @@ public class OrderRepository {
     private HashMap<String, HashSet<String>> partnerToOrderMap;
     private HashMap<String, String> orderToPartnerMap;
 
-    // public OrderRepository(){
-    //     this.orderMap = new HashMap<String, Order>();
-    //     this.partnerMap = new HashMap<String, DeliveryPartner>();
-    //     this.partnerToOrderMap = new HashMap<String, HashSet<String>>();
-    //     this.orderToPartnerMap = new HashMap<String, String>();
-    // }
+    public OrderRepository(){
+        this.orderMap = new HashMap<String, Order>();
+        this.partnerMap = new HashMap<String, DeliveryPartner>();
+        this.partnerToOrderMap = new HashMap<String, HashSet<String>>();
+        this.orderToPartnerMap = new HashMap<String, String>();
+    }
 
 
     public void saveOrder(Order order){
         // your code here
         orderMap.put(order.getId(), order);
-        
     }
 
     public void savePartner(String partnerId){
@@ -82,7 +79,7 @@ public class OrderRepository {
             allOrders.add(order.getId());
         }
         return allOrders;
-    }   
+    }
 
     public void deletePartner(String partnerId){
         // your code here
@@ -131,7 +128,6 @@ public class OrderRepository {
                 count++;
             }
         }
-
         return count;
     }
 
@@ -143,8 +139,8 @@ public class OrderRepository {
         for (String orderId : partnerToOrderMap.getOrDefault(partnerId, new HashSet<>())) {
             Order order = orderMap.get(orderId);
             if (order != null && (lastDeliveryTime == null || order.getDeliveryTime() > Integer.parseInt(lastDeliveryTime))) {
-                lastDeliveryTime = String.valueOf(order.getDeliveryTime());                
-            }            
+                lastDeliveryTime = String.valueOf(order.getDeliveryTime());
+            }
         }
         return lastDeliveryTime;
     }
