@@ -9,7 +9,6 @@ public class Order {
     public Order(String id, String deliveryTime) {
         this.id = id;
        // this.deliveryTime = deliveryTime;
-        this.partnerId = partnerId;
     }
 
 
