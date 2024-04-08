@@ -84,11 +84,14 @@ public class OrderRepository {
     public void deletePartner(String partnerId){
         // your code here
         // delete partner by ID
-        partnerMap.remove(partnerId);
 
-        orderToPartnerMap.values().removeIf(id -> id.equals(partnerId));
+        if(partnerId != null){
+            partnerMap.remove(partnerId);
 
-        partnerToOrderMap.remove(partnerId);
+            orderToPartnerMap.values().removeIf(id -> id.equals(partnerId));
+
+            partnerToOrderMap.remove(partnerId);
+        }
     }
 
     public void deleteOrder(String orderId){

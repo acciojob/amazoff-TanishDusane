@@ -124,6 +124,7 @@ public class OrderController {
         //And push all his assigned orders to unassigned orders.
 
         orderService.deletePartner(partnerId);
+
         return new ResponseEntity<>(partnerId + " removed successfully", HttpStatus.CREATED);
     }
 
