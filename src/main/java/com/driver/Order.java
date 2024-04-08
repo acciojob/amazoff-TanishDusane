@@ -6,7 +6,7 @@ public class Order {
     private int deliveryTime;
     private String partnerId;
 
-    public Order(String id, String deliveryTime, String partnerId) {
+    public Order(String id, String deliveryTime) {
         this.id = id;
        // this.deliveryTime = deliveryTime;
         this.partnerId = partnerId;
