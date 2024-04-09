@@ -131,21 +131,18 @@ public class OrderRepository {
     public void deleteOrder(String orderId){
         // your code here
         // delete order by ID
-//        if (orderId != null && orderMap.containsKey(orderId)) {
-//            String partnerId = orderToPartnerMap.remove(orderId);
-//            if (partnerId != null && partnerToOrderMap.containsKey(partnerId)) {
-//                partnerToOrderMap.get(partnerId).remove(orderId);
-//                DeliveryPartner partner = partnerMap.get(partnerId);
-//                if (partner != null) {
-//                    partner.setNumberOfOrders(partner.getNumberOfOrders() - 1);
-//                }
-//            }
-//            orderMap.remove(orderId);
-//        }
+        if (orderId != null && orderMap.containsKey(orderId)) {
+            String partnerId = orderToPartnerMap.remove(orderId);
+            if (partnerId != null && partnerToOrderMap.containsKey(partnerId)) {
+                partnerToOrderMap.get(partnerId).remove(orderId);
+                DeliveryPartner partner = partnerMap.get(partnerId);
+                if (partner != null) {
+                    partner.setNumberOfOrders(partner.getNumberOfOrders() - 1);
+                }
+            }
+            orderMap.remove(orderId);
+        }
 
-        orderMap.remove(orderId);
-        orderToPartnerMap.remove(orderId);
-        partnerToOrderMap.forEach((partnerId, orderIds) -> orderIds.remove(orderId));
     }
 
     public Integer findCountOfUnassignedOrders(){
