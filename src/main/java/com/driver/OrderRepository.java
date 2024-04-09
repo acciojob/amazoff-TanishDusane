@@ -22,17 +22,21 @@ public class OrderRepository {
 
     public void saveOrder(Order order){
         // your code here
-        if (order != null && order.getId() != null) {
-            orderMap.put(order.getId(), order);
-        }
+//        if (order != null && order.getId() != null) {
+//            orderMap.put(order.getId(), order);
+//        }
+        orderMap.put(order.getId(),order);
     }
 
     public void savePartner(String partnerId){
         // your code here
         // create a new partner with given partnerId and save it
-        if (partnerId != null) {
-            DeliveryPartner deliveryPartner = new DeliveryPartner(partnerId);
-            partnerMap.put(partnerId, deliveryPartner);
+//        if (partnerId != null) {
+//            DeliveryPartner deliveryPartner = new DeliveryPartner(partnerId);
+//            partnerMap.put(partnerId, deliveryPartner);
+//        }
+        if(!partnerMap.containsKey(partnerId)){
+            partnerMap.put(partnerId,null);
         }
     }
 
