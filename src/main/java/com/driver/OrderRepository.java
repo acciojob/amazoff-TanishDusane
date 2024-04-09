@@ -1,4 +1,3 @@
-
 package com.driver;
 
 import java.util.*;
@@ -31,12 +30,9 @@ public class OrderRepository {
     public void savePartner(String partnerId){
         // your code here
         // create a new partner with given partnerId and save it
-//        if (partnerId != null) {
-//            DeliveryPartner deliveryPartner = new DeliveryPartner(partnerId);
-//            partnerMap.put(partnerId, deliveryPartner);
-//        }
-        if(!partnerMap.containsKey(partnerId)){
-            partnerMap.put(partnerId,null);
+        if (partnerId != null) {
+            DeliveryPartner deliveryPartner = new DeliveryPartner(partnerId);
+            partnerMap.put(partnerId, deliveryPartner);
         }
     }
 
