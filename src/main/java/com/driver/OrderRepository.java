@@ -107,21 +107,25 @@ public class OrderRepository {
         return ordersList;
     }
 
-    public void deletePartner(String partnerId){
-        // your code here
-        // delete partner by ID
-//        if (partnerId != null && partnerMap.containsKey(partnerId)) {
-//            partnerMap.remove(partnerId);
-//            Set<String> assignedOrders = partnerToOrderMap.remove(partnerId);
-//            if (assignedOrders != null) {
-//                for (String orderId : assignedOrders) {
-//                    orderToPartnerMap.remove(orderId);
-//                }
-//            }
-//        }
-        partnerMap.remove(partnerId);
-        orderToPartnerMap.values().removeIf(id -> id.equals(partnerId));
-        partnerToOrderMap.remove(partnerId);
+    public void deletePartner(String partnerId) {
+        // Check if partnerId is not null and exists in partnerMap
+        if (partnerId != null && partnerMap.containsKey(partnerId)) {
+            // Remove partner from partnerMap
+            partnerMap.remove(partnerId);
+
+            // Remove all references to the partner from orderToPartnerMap
+            orderToPartnerMap.values().removeIf(id -> id != null && id.equals(partnerId));
+
+            // Remove partner from partnerToOrderMap and get the set of assigned orders
+            Set<String> assignedOrders = partnerToOrderMap.remove(partnerId);
+
+            // Remove partner's references from orderToPartnerMap for all assigned orders
+            if (assignedOrders != null) {
+                for (String orderId : assignedOrders) {
+                    orderToPartnerMap.remove(orderId);
+                }
+            }
+        }
     }
 
     public void deleteOrder(String orderId){
@@ -175,18 +179,26 @@ public class OrderRepository {
 //            }
 //        }
 //        return ordersLeft;
-        String[] timeparts = timeString.split(":");
-        int givenHours = Integer.parseInt(timeparts[0]);
-        int givenMinutes = Integer.parseInt(timeparts[1]);
+
+        String[] timeParts = timeString.split(":");
+        int givenHours = Integer.parseInt(timeParts[0]);
+        int givenMinutes = Integer.parseInt(timeParts[1]);
+
         int count = 0;
 
-        for(String orderId : partnerToOrderMap.getOrDefault(partnerId, new HashSet<>())) {
+        // Get the set of order IDs assigned to the given partner
+        Set<String> assignedOrders = partnerToOrderMap.getOrDefault(partnerId, new HashSet<>());
+
+        // Iterate over the assigned orders
+        for (String orderId : assignedOrders) {
+            // Get the order associated with the orderId
             Order order = orderMap.get(orderId);
-            if(order != null && order.getDeliveryTime() > (givenHours * 60 + givenMinutes)){
+
+            // Check if the order exists and if its delivery time is after the given time
+            if (order != null && order.getDeliveryTime() > (givenHours * 60 + givenMinutes)) {
                 count++;
             }
         }
-
         return count;
     }
 
@@ -208,14 +220,32 @@ public class OrderRepository {
 //        int minutes = time % 60;
 //        lastDeliveryTime = String.format("%02d:%02d", hours, minutes);
 //        return lastDeliveryTime;
-        String lastDilveryTime = null;
 
-        for(String orderId : partnerToOrderMap.getOrDefault(partnerId,new HashSet<>())){
+        String lastDeliveryTime = null;
+
+        // Check if partnerId is null or if partnerToOrderMap is null
+        if (partnerId == null || partnerToOrderMap == null) {
+            return lastDeliveryTime;
+        }
+
+        // Get the set of order IDs assigned to the given partner
+        Set<String> assignedOrders = partnerToOrderMap.getOrDefault(partnerId, new HashSet<>());
+
+        // Iterate over the assigned orders
+        for (String orderId : assignedOrders) {
+            // Check if orderId is null or if orderMap is null
+            if (orderId == null || orderMap == null) {
+                continue; // Skip this iteration if orderId or orderMap is null
+            }
+
+            // Get the order associated with the orderId
             Order order = orderMap.get(orderId);
-            if(order != null && (lastDilveryTime == null || order.getDeliveryTime() > Integer.parseInt(lastDilveryTime))) {
-                lastDilveryTime = String.valueOf(order.getDeliveryTime());
+
+            // Check if the order exists and if it has a later delivery time than the current lastDeliveryTime
+            if (order != null && (lastDeliveryTime == null || order.getDeliveryTime() > Integer.parseInt(lastDeliveryTime))) {
+                lastDeliveryTime = String.valueOf(order.getDeliveryTime());
             }
         }
-        return lastDilveryTime;
+        return lastDeliveryTime;
     }
 }
